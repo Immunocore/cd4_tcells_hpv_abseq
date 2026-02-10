@@ -75,7 +75,12 @@ if (!file.exists(file.path(out_fold, "evaluatek_500genes_3to8_results_hpv_cleara
     # Pseudotime and cellWeights from the previous slingshot analysis
     pseudotime = slingshot::slingPseudotime(sce_cell, na = FALSE)[sel_cells, ],
     cellWeights = slingshot::slingCurveWeights(sce_cell)[sel_cells, ],
-    conditions = factor(scObj.cd4.filt[, sel_cells]@meta.data %>% dplyr::select(hpv_clearance) %>% pull()),
+    conditions =  relevel(
+        factor(scObj.cd4.filt[, sel_cells]@meta.data %>% 
+           dplyr::select(hpv_clearance) %>% 
+           pull()),
+        ref = "HPV non-detected"
+      ),
     nGenes = 500,
     BPPARAM = BiocParallel::MulticoreParam(workers = 16),
     k = 3:8
@@ -96,7 +101,12 @@ for (k in c(5, 6, 7, 8)) {
       # Pseudotime and cellWeights from the previous slingshot analysis
       pseudotime = slingshot::slingPseudotime(sce_cell, na = FALSE)[sel_cells, ],
       cellWeights = slingshot::slingCurveWeights(sce_cell)[sel_cells, ],
-      conditions = factor(scObj.cd4.filt[, sel_cells]@meta.data %>% dplyr::select(hpv_clearance) %>% pull()),
+     conditions = relevel(
+        factor(scObj.cd4.filt[, sel_cells]@meta.data %>% 
+           dplyr::select(hpv_clearance) %>% 
+           pull()),
+        ref = "HPV non-detected"
+      ),
       # Should we check the nknots parameter?
       nknots = k, verbose = TRUE, parallel = TRUE, sce = TRUE,
       BPPARAM = BiocParallel::MulticoreParam(workers=16)
