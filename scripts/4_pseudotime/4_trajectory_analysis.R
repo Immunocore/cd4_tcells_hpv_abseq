@@ -69,18 +69,19 @@ sel_genes <- sort(rownames(gv)[1:500])
 ###################################
 #### Conditions - hpv clearance ###
 ###################################
+
+# This uses the cell names as an index to pull from the metadata
+conditions_fixed <- scObj.cd4.filt@meta.data[unname(sel_cells), "hpv_clearance"]
+names(conditions_fixed) <- sel_cells
+conditions_fixed <- relevel(factor(conditions_fixed), ref = "HPV non-detected")
+
 if (!file.exists(file.path(out_fold, "evaluatek_500genes_3to8_results_hpv_clearance.RDS"))) {
   kn_cond <- tradeSeq::evaluateK(
     counts = drop0(scObj.cd4.filt@assays$RNA@counts[sel_genes, sel_cells]),
     # Pseudotime and cellWeights from the previous slingshot analysis
     pseudotime = slingshot::slingPseudotime(sce_cell, na = FALSE)[sel_cells, ],
     cellWeights = slingshot::slingCurveWeights(sce_cell)[sel_cells, ],
-    conditions =  relevel(
-        factor(scObj.cd4.filt[, sel_cells]@meta.data %>% 
-           dplyr::select(hpv_clearance) %>% 
-           pull()),
-        ref = "HPV non-detected"
-      ),
+    conditions =  conditions_fixed,
     nGenes = 500,
     BPPARAM = BiocParallel::MulticoreParam(workers = 16),
     k = 3:8
@@ -101,13 +102,7 @@ for (k in c(5, 6, 7, 8)) {
       # Pseudotime and cellWeights from the previous slingshot analysis
       pseudotime = slingshot::slingPseudotime(sce_cell, na = FALSE)[sel_cells, ],
       cellWeights = slingshot::slingCurveWeights(sce_cell)[sel_cells, ],
-     conditions = relevel(
-        factor(scObj.cd4.filt[, sel_cells]@meta.data %>% 
-           dplyr::select(hpv_clearance) %>% 
-           pull()),
-        ref = "HPV non-detected"
-      ),
-      # Should we check the nknots parameter?
+     conditions = conditions_fixed,
       nknots = k, verbose = TRUE, parallel = TRUE, sce = TRUE,
       BPPARAM = BiocParallel::MulticoreParam(workers=16)
     )
