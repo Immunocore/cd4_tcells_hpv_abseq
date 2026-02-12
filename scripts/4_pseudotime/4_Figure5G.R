@@ -1,6 +1,6 @@
 ###############################################################################
 ##   Script to generate Figure 5G                                            ##
-##   Smoothed gene expression trajectories for 22 genes                      ##
+##   Smoothed gene expression trajectories for diff exp genes                ##
 ##   identified as significantly differentially expressed                    ##
 ##   in the lineage 3 condition-specific association test                    ## 
 ##   Input:                                                                  ##
