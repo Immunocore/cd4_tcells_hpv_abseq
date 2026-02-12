@@ -84,7 +84,7 @@ sigGenes_cond5 <- conditionTest %>%
 # Save all significant genes (and all results before filtering)
 write.table(conditionTest,
   file.path(out_fold, "6_diff_exp_gene_along_condition", "CD4_naive_tradeseq_diff_exp_along_pseudotime_CD4_naive_conditionTest.txt"),
-            sep = "\t", quote = FALSE, row.names = FALSE)
+            sep = "\t", quote = FALSE, row.names = TRUE)
 write.table(sigGenes_cond,
   file.path(out_fold,  "6_diff_exp_gene_along_condition", "CD4_naive_tradeseq_diff_exp_along_pseudotime_global_padj0.05_sel_columns_conditionTest.txt"),
             sep = "\t", quote = FALSE, row.names = FALSE)
