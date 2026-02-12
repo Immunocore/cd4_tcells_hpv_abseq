@@ -119,11 +119,7 @@ curves_colors <- list(
 ## FIGURE 5G                                  ##
 ## #############################################
 cols <- curves_colors[[3]]
-unique_pos <- sort(c("ANXA1", "CD48", "CD27", "HMGB2", "LDLRAP1",
-                     "PIM2", "TAGAP", "DUSP2", "LGALS1", "IL6ST",
-                     "NFKBIA", "PLK2", "NEAT1", "IKZF1", "BHLHE40",
-                     "FOSB", "FOSL2", "VNN2", "CTSL", "CXCR4",
-                     "HSPA1A", "SATB1"))
+unique_pos <- unique(sigGenes_cond3$Gene)
 
 plt_pos <- list()
 for (gene in unique_pos) {
@@ -143,26 +139,16 @@ a <- ggpubr::ggarrange(
       plt_pos[[5]],
       plt_pos[[6]],
       plt_pos[[7]],
+      common.legend = TRUE, ncol = 4, nrow = 2)
+b <- ggpubr::ggarrange(
       plt_pos[[8]],
       plt_pos[[9]],
       plt_pos[[10]],
       plt_pos[[11]],
-      common.legend = TRUE, ncol = 4, nrow = 3)
-    
-b <- ggpubr::ggarrange(
       plt_pos[[12]],
       plt_pos[[13]],
       plt_pos[[14]],
-      plt_pos[[15]],
-      plt_pos[[16]],
-      plt_pos[[17]],
-      plt_pos[[18]],
-      plt_pos[[19]],
-      plt_pos[[20]],
-      plt_pos[[21]],
-      plt_pos[[22]],
-      common.legend = TRUE, ncol = 4, nrow = 3)
-
+      common.legend = TRUE, ncol = 4, nrow = 2)
 
 saveRDS(a,
   file.path(out_fold, fname, sprintf("Figure_5G_CD4_naive_lineage%s_per_condition_diff_expressed_genes_Oct2025_4x3_part1_conditionTest.rds", "3")))
@@ -174,10 +160,12 @@ tiff(file.path(out_fold, fname, sprintf("Figure_5G_CD4_naive_lineage%s_per_condi
 print(a)
 dev.off()
 
-saveRDS(b, file.path(out_fold, fname, sprintf("Figure_5G_CD4_naive_lineage%s_per_condition_diff_expressed_genes_Oct2025_4x3_part2_conditionTest.rds", "3")))
+saveRDS(b,
+  file.path(out_fold, fname, sprintf("Figure_5G_CD4_naive_lineage%s_per_condition_diff_expressed_genes_Oct2025_4x3_part2_conditionTest.rds", "3")))
 tiff(file.path(out_fold, fname, sprintf("Figure_5G_CD4_naive_lineage%s_per_condition_diff_expressed_genes_Oct2025_4x3_part2_conditionTest.tiff", "3")),
      width = 12, height = 12,
-     units = "in", res = 300,
+     units = "in",
+     res = 300,
      compression = "lzw")
 print(b)
 dev.off()
